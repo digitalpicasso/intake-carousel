@@ -3,147 +3,272 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>12 Archetypes Carousel — V3</title>
+<title>12 Archetypes Carousel — V4</title>
 <style>
 :root{
   --card-w: clamp(280px, 32vw, 380px);
   --gap: 20px;
   --autoplay-ms: 0; /* 0 disables autoplay */
-  --shadow: 0 6px 22px rgba(0,0,0,0.08);
-  --shadow-focus: 0 12px 32px rgba(0,0,0,0.18);
+  --shadow: 0 6px 22px rgba(0,0,0,.08);
+  --shadow-focus: 0 12px 32px rgba(0,0,0,.18);
   --muted: #555;
 }
 *{box-sizing:border-box}
 html,body{
-  margin:0;
-  background:linear-gradient(180deg,#fff 80%,transparent);
-  color:#000;
-  font-family:Inter,ui-sans-serif,system-ui;
-  overflow:hidden;
+  margin:0; overflow:hidden;
+  background:linear-gradient(180deg,#fff 82%, transparent);
+  color:#000; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
-body{display:grid;place-items:center;min-height:100svh}
-.wrap{width:min(1100px,96vw);position:relative}
+body{display:grid; place-items:center; min-height:100svh}
+.wrap{width:min(1100px,96vw); position:relative}
 
 /* Track */
 .carousel{
-  display:flex;gap:var(--gap);
-  overflow-x:auto;overflow-y:hidden;
+  display:flex; gap:var(--gap);
+  overflow-x:auto; overflow-y:hidden;           /* horizontal only */
   scroll-snap-type:x mandatory;
-  padding:8px 56px;
+  padding:8px 56px;                              /* room for arrows */
   scroll-behavior:smooth;
   -webkit-overflow-scrolling:touch;
 }
 .carousel::-webkit-scrollbar{height:8px}
-.carousel::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:4px}
+.carousel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15); border-radius:4px}
 
 /* Cards */
 .card{
   flex:0 0 var(--card-w);
   scroll-snap-align:center;
-  background:#fff;
-  border-radius:18px;
-  padding:20px 18px;
-  color:#111;
-  border:1px solid rgba(0,0,0,0.08);
+  background:#fff; color:#111;
+  border-radius:18px; padding:20px 18px;
+  border:1px solid rgba(0,0,0,.08);
   box-shadow:var(--shadow);
-  transition:transform .3s ease,box-shadow .3s ease;
-  display:flex;flex-direction:column;gap:10px;
+  transition:transform .28s ease, box-shadow .28s ease;
+  display:flex; flex-direction:column; gap:10px;
 }
-.card.focused{
-  transform:scale(1.04);
-  box-shadow:var(--shadow-focus);
-  z-index:5;
-}
+.card.focused{ transform:scale(1.04); box-shadow:var(--shadow-focus); z-index:5 }
 
-/* Text hierarchy */
-.kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.title{font-size:1.2rem;font-weight:800;margin:0}
-.aka{font-weight:600;color:#777;margin:0 0 6px}
-.label{font-weight:700;font-size:.9rem;margin:.15rem 0 0}
-.text{margin:0;color:#333;font-size:.95rem;line-height:1.45}
-.rule{height:1px;background:rgba(0,0,0,0.1);border:0;margin:6px 0}
+/* Typography */
+.kicker{font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted)}
+.num{font-size:.8rem; color:#777; margin:-4px 0 2px}
+.title{font-size:1.2rem; font-weight:800; margin:0}
+.aka{font-weight:600; color:#777; margin:0 0 6px}
+.rule{height:1px; background:rgba(0,0,0,.1); border:0; margin:6px 0}
+.label{font-weight:700; font-size:.9rem; margin:.15rem 0 0}
+.text{margin:0; color:#333; font-size:.95rem; line-height:1.45}
 
 /* Arrows */
 .arrow{
-  position:absolute;inset:0 auto 0 0;width:44px;height:44px;margin:auto 8px;
-  border:none;border-radius:999px;background:rgba(255,255,255,0.85);
+  position:absolute; inset:0 auto 0 0; width:44px; height:44px; margin:auto 8px;
+  border:none; border-radius:999px; background:rgba(255,255,255,.9);
   backdrop-filter:blur(5px);
-  color:#111;display:grid;place-items:center;cursor:pointer;z-index:10;
-  box-shadow:0 4px 14px rgba(0,0,0,0.1);
-  transition:background .2s ease;
+  color:#111; display:grid; place-items:center; cursor:pointer; z-index:10;
+  box-shadow:0 4px 14px rgba(0,0,0,.1);
 }
-.arrow:hover{background:#fff}
-.arrow.right{left:auto;right:0}
-.arrow svg{width:20px;height:20px}
+.arrow.right{left:auto; right:0}
+.arrow svg{width:20px; height:20px}
 
 /* Dots */
-.dots{display:flex;gap:8px;justify-content:center;margin:10px 0 0}
-.dot{width:8px;height:8px;border-radius:999px;background:#bbb;opacity:.5;cursor:pointer}
-.dot[aria-current="true"]{opacity:1;background:#000;transform:scale(1.25)}
+.dots{display:flex; gap:8px; justify-content:center; margin:10px 0 0}
+.dot{width:8px; height:8px; border-radius:999px; background:#bbb; opacity:.5; cursor:pointer}
+.dot[aria-current="true"]{opacity:1; background:#000; transform:scale(1.25)}
 
-@media (prefers-reduced-motion: reduce){
-  .carousel{scroll-behavior:auto}
-}
+@media (prefers-reduced-motion: reduce){ .carousel{scroll-behavior:auto} }
 </style>
 </head>
 <body>
 <main class="wrap" role="region" aria-label="12 Archetypes Carousel">
   <button class="arrow left" aria-label="Previous">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
   <div class="carousel" id="carousel" tabindex="0">
-    <!-- sample first two cards; reuse remaining 10 from previous file -->
+    <!-- 1. Innocent -->
     <article class="card" aria-label="The Innocent">
       <div class="kicker">Archetype</div>
+      <div class="num">Archetype #1</div>
       <h3 class="title">The Innocent</h3>
       <p class="aka">(Sincere)</p>
       <hr class="rule">
-      <p class="label">Customers feel</p>
-      <p class="text">Uplifted and hopeful.</p>
       <p class="label">You</p>
       <p class="text">Provide products or experiences that highlight honesty, simplicity, and goodness.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Uplifted and hopeful.</p>
       <p class="label">Essence</p>
       <p class="text"><em>Purity, optimism, doing what’s right.</em></p>
     </article>
 
+    <!-- 2. Everyman -->
     <article class="card" aria-label="The Everyman">
       <div class="kicker">Archetype</div>
+      <div class="num">Archetype #2</div>
       <h3 class="title">The Everyman</h3>
       <p class="aka">(Down-to-earth)</p>
       <hr class="rule">
-      <p class="label">Customers feel</p>
-      <p class="text">Accepted, included, and comfortable being themselves.</p>
       <p class="label">You</p>
       <p class="text">Offer something familiar and dependable that helps people feel at home in everyday life.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Accepted, included, and comfortable being themselves.</p>
       <p class="label">Essence</p>
       <p class="text"><em>Connection, belonging, honesty, comfort.</em></p>
     </article>
 
-    <!-- ...repeat rest of archetypes here... -->
+    <!-- 3. Hero -->
+    <article class="card" aria-label="The Hero">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #3</div>
+      <h3 class="title">The Hero</h3>
+      <p class="aka">&nbsp;</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Deliver solid results and help people overcome challenges.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Confident, capable, and ready to succeed.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Courage, hard work, determination, strength.</em></p>
+    </article>
+
+    <!-- 4. Caregiver -->
+    <article class="card" aria-label="The Caregiver">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #4</div>
+      <h3 class="title">The Caregiver</h3>
+      <p class="aka">&nbsp;</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Offer protection, help, and comfort through what you do.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Cared for, safe, and reassured.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Kindness, trust, compassion, care.</em></p>
+    </article>
+
+    <!-- 5. Explorer -->
+    <article class="card" aria-label="The Explorer">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #5</div>
+      <h3 class="title">The Explorer</h3>
+      <p class="aka">(Curious)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Invite people to try new things and see the world differently.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Curious, free, and open to new experiences.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Freedom, discovery, independence, growth.</em></p>
+    </article>
+
+    <!-- 6. Rebel -->
+    <article class="card" aria-label="The Rebel">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #6</div>
+      <h3 class="title">The Rebel</h3>
+      <p class="aka">(Outlaw)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Question the usual way of doing things and push for change.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Bold, independent, and ready to stand out.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Change, freedom, courage, progress.</em></p>
+    </article>
+
+    <!-- 7. Lover -->
+    <article class="card" aria-label="The Lover">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #7</div>
+      <h3 class="title">The Lover</h3>
+      <p class="aka">(Muse)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Inspire passion and make people feel special and appreciated.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Enriched with beauty and emotionally awakened.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Beauty, love, care, appreciation.</em></p>
+    </article>
+
+    <!-- 8. Creator -->
+    <article class="card" aria-label="The Creator">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #8</div>
+      <h3 class="title">The Creator</h3>
+      <p class="aka">&nbsp;</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Bring ideas to life with skill and creativity.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Inspired, expressive, and proud of what’s possible.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Imagination, craft, expression, vision.</em></p>
+    </article>
+
+    <!-- 9. Jester -->
+    <article class="card" aria-label="The Jester">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #9</div>
+      <h3 class="title">The Jester</h3>
+      <p class="aka">(Playful)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Add fun and laughter to everyday moments.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Joyful, relaxed, and happy to be part of your brand.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Joy, humor, play, lightheartedness.</em></p>
+    </article>
+
+    <!-- 10. Sage -->
+    <article class="card" aria-label="The Sage">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #10</div>
+      <h3 class="title">The Sage</h3>
+      <p class="aka">(Wise)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Share helpful knowledge that guides people toward better decisions.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Informed, clear, and confident in their actions.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Truth, learning, guidance, understanding.</em></p>
+    </article>
+
+    <!-- 11. Magician -->
+    <article class="card" aria-label="The Magician">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #11</div>
+      <h3 class="title">The Magician</h3>
+      <p class="aka">(Transformative)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Turn ordinary things into something unique and full of meaning.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Amazed, hopeful, and inspired by what you offer.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Change, wonder, hope, inspiration.</em></p>
+    </article>
+
+    <!-- 12. Ruler -->
+    <article class="card" aria-label="The Ruler">
+      <div class="kicker">Archetype</div>
+      <div class="num">Archetype #12</div>
+      <h3 class="title">The Ruler</h3>
+      <p class="aka">(Leader)</p>
+      <hr class="rule">
+      <p class="label">You</p>
+      <p class="text">Provide order, clarity, and dependable direction people can rely on.</p>
+      <p class="label">Customers feel</p>
+      <p class="text">Confident, organized, and secure.</p>
+      <p class="label">Essence</p>
+      <p class="text"><em>Stability, structure, trust, leadership.</em></p>
+    </article>
   </div>
 
   <button class="arrow right" aria-label="Next">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-      <path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
-  <div class="dots" role="tablist">
-    <button class="dot" aria-current="true"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
-    <button class="dot"></button>
+  <div class="dots" role="tablist" aria-label="Slides">
+    <button class="dot" aria-current="true"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button><button class="dot"></button>
   </div>
 </main>
 
@@ -155,42 +280,47 @@ const left = document.querySelector('.arrow.left');
 const right = document.querySelector('.arrow.right');
 let index = 0;
 
-function gap(){return parseInt(getComputedStyle(scroller).gap)||0}
-function cardW(){return cards[0].offsetWidth+gap()}
+/* sizing helpers */
+const gap = () => parseInt(getComputedStyle(scroller).gap) || 0;
+const cardW = () => cards[0].offsetWidth + gap();
 
+/* snap + dots */
 function snapTo(i){
-  index=(i+cards.length)%cards.length;
-  scroller.scrollTo({left:index*cardW(),behavior:'smooth'});
-  dots.forEach((d,di)=>d.setAttribute('aria-current',di===index));
+  index = (i + cards.length) % cards.length;
+  scroller.scrollTo({ left: index * cardW(), behavior: 'smooth' });
+  dots.forEach((d,di)=>d.setAttribute('aria-current', di===index));
 }
-function next(){snapTo(index+1)}
-function prev(){snapTo(index-1)}
-right.addEventListener('click',next);
-left.addEventListener('click',prev);
-dots.forEach((d,di)=>d.addEventListener('click',()=>snapTo(di)));
+function next(){ snapTo(index+1) }
+function prev(){ snapTo(index-1) }
 
-/* Focus lift based on center position */
+/* focus lift (centered card pops) */
 function updateFocus(){
-  const center=scroller.scrollLeft+scroller.clientWidth/2;
+  const center = scroller.scrollLeft + scroller.clientWidth/2;
   cards.forEach(c=>{
-    const rect=c.getBoundingClientRect();
-    const mid=c.offsetLeft+c.offsetWidth/2;
-    const dist=Math.abs(mid-center);
-    c.classList.toggle('focused',dist<cardW()/2);
+    const mid = c.offsetLeft + c.offsetWidth/2;
+    const isFocused = Math.abs(mid - center) < cardW()/2;
+    c.classList.toggle('focused', isFocused);
   });
 }
-scroller.addEventListener('scroll',()=>requestAnimationFrame(updateFocus));
-updateFocus();
+scroller.addEventListener('scroll', ()=>requestAnimationFrame(updateFocus));
 
-/* Fit height */
+/* fit height to tallest card so there’s no vertical scroll */
 function fitHeight(){
-  const tallest=Math.max(...cards.map(c=>c.offsetHeight));
-  scroller.style.height=(tallest+16)+'px';
-  document.body.style.height=(tallest+120)+'px';
+  const tallest = Math.max(...cards.map(c=>c.offsetHeight));
+  scroller.style.height = (tallest + 16) + 'px';
+  document.body.style.height = (tallest + 120) + 'px';
 }
-addEventListener('load',fitHeight);
-addEventListener('resize',()=>requestAnimationFrame(fitHeight));
-setTimeout(fitHeight,400);
+addEventListener('load', ()=>{ fitHeight(); updateFocus(); });
+addEventListener('resize', ()=>{ requestAnimationFrame(()=>{ fitHeight(); updateFocus(); }); });
+setTimeout(()=>{ fitHeight(); updateFocus(); }, 400); // font late-load safety
+
+/* controls */
+right.addEventListener('click', next);
+left.addEventListener('click', prev);
+dots.forEach((d,di)=>d.addEventListener('click', ()=>snapTo(di)));
+
+/* init */
+snapTo(0);
 </script>
 </body>
 </html>
