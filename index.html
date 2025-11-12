@@ -20,18 +20,32 @@
     html,body{background:transparent}
     body{
       margin:0;
-      font:16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      display:grid; place-items:center; min-height:100svh;
+      height:100%;            /* ✅ allow body to fill embed height */
+      overflow:hidden;        /* ✅ no body scroll */
+      font:16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:transparent;
     }
-    .wrap{ width:min(1100px, 96vw); position:relative; }
+    .wrap{
+      width:min(1000px, 96vw);
+      height:auto;            /* ✅ auto height for Notion embed */
+      position:relative;
+    }
 
     /* Track */
     .carousel{
-      display:flex; gap:var(--gap);
-      overflow:auto; scroll-snap-type:x mandatory;
-      padding:8px 56px; /* room for arrows */
+      display:flex;
+      gap:var(--gap);
+      overflow-x:auto;
+      overflow-y:hidden;      /* ✅ prevent vertical scroll */
+      scroll-snap-type:x mandatory;
+      padding:8px 56px;
       scroll-behavior:smooth;
       -webkit-overflow-scrolling:touch;
+    }
+
     }
     .carousel::-webkit-scrollbar{height:8px}
     .carousel::-webkit-scrollbar-thumb{background:color-mix(in oklab, var(--accent) 30%, transparent)}
@@ -95,6 +109,14 @@
       .carousel{scroll-behavior:auto}
       :root{ --autoplay-ms: 0; }
     }
+    @media (max-width: 768px){
+    :root{
+      --card-w: 85vw;      /* show one card per view */
+      --gap: 12px;
+    }
+    .arrow{ display:none; } /* hide arrows, swipe only */
+    .wrap{ width:100%; padding:0 4vw; }
+  }
   </style>
 </head>
 <body>
