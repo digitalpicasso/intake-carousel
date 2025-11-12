@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Archetypes Carousel (Text-Only)</title>
+  <style>
+    :root{
+      --card-w: 360px;     /* card width */
+      --card-h: auto;      /* text-only, height grows with content */
+      --gap: 16px;
+      --radius: 18px;
+      --autoplay-ms: 3200; /* set 0 to disable autoplay */
+      --accent: #111;
+      --muted: #666;
+      --ring: color-mix(in oklab, canvastext 20%, transparent);
+      color-scheme: light dark;
+    }
+    *{box-sizing:border-box}
+    html,body{background:transparent}
+    body{
+      margin:0;
+      font:16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      display:grid; place-items:center; min-height:100svh;
+    }
+    .wrap{ width:min(1100px, 96vw); position:relative; }
+
+    /* Track */
+    .carousel{
+      display:flex; gap:var(--gap);
+      overflow:auto; scroll-snap-type:x mandatory;
+      padding:8px 56px; /* room for arrows */
+      scroll-behavior:smooth;
+      -webkit-overflow-scrolling:touch;
+    }
+    .carousel::-webkit-scrollbar{height:8px}
+    .carousel::-webkit-scrollbar-thumb{background:color-mix(in oklab, var(--accent) 30%, transparent)}
+
+    /* Cards */
+    .card{
+      flex:0 0 var(--card-w);
+      scroll-snap-align:center;
+      background:canvas; color:canvastext;
+      border:1px solid var(--ring);
+      border-radius:var(--radius);
+      box-shadow:0 10px 24px color-mix(in oklab, canvastext 10%, transparent);
+      padding:18px 18px 16px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .kicker { font-size:0.8rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
+    .title  { font-weight:800; font-size:1.25rem; margin:0; }
+    .aka    { font-weight:600; color:var(--muted); margin:0 }
+    .rule   { height:1px; background:color-mix(in oklab, canvastext 10%, canvas); border:0; }
+    .label  { font-weight:700; font-size:0.9rem; margin:.25rem 0 0; }
+    .text   { margin:0; color:var(--muted); }
+
+    /* Optional per-card tint (very subtle) */
+    .tint-innocent { box-shadow:0 10px 24px color-mix(in oklab, #8ad 18%, transparent); }
+    .tint-everyman { box-shadow:0 10px 24px color-mix(in oklab, #aaa 18%, transparent); }
+    .tint-hero     { box-shadow:0 10px 24px color-mix(in oklab, #e66 18%, transparent); }
+    .tint-care     { box-shadow:0 10px 24px color-mix(in oklab, #8c8 18%, transparent); }
+    .tint-explore  { box-shadow:0 10px 24px color-mix(in oklab, #6ac 18%, transparent); }
+    .tint-rebel    { box-shadow:0 10px 24px color-mix(in oklab, #c66 18%, transparent); }
+    .tint-lover    { box-shadow:0 10px 24px color-mix(in oklab, #d88 18%, transparent); }
+    .tint-creator  { box-shadow:0 10px 24px color-mix(in oklab, #ca8 18%, transparent); }
+    .tint-jester   { box-shadow:0 10px 24px color-mix(in oklab, #fc6 18%, transparent); }
+    .tint-sage     { box-shadow:0 10px 24px color-mix(in oklab, #7bd 18%, transparent); }
+    .tint-magician { box-shadow:0 10px 24px color-mix(in oklab, #a7d 18%, transparent); }
+    .tint-ruler    { box-shadow:0 10px 24px color-mix(in oklab, #88a 18%, transparent); }
+
+    /* Arrows */
+    .arrow{
+      position:absolute; inset:0 auto 0 0; width:44px; height:44px; margin:auto 6px;
+      border:1px solid var(--ring);
+      border-radius:999px; background:canvas; color:var(--accent);
+      display:grid; place-items:center; cursor:pointer; z-index:2;
+      box-shadow:0 6px 18px color-mix(in oklab, canvastext 10%, transparent);
+      transition:transform .15s ease;
+    }
+    .arrow.right{left:auto; right:0}
+    .arrow:hover{transform:scale(1.06)}
+    .arrow svg{width:20px; height:20px}
+
+    /* Dots */
+    .dots{display:flex; gap:8px; justify-content:center; margin:10px 0 0}
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background:color-mix(in oklab, var(--accent) 30%, transparent);
+      opacity:.5; cursor:pointer;
+    }
+    .dot[aria-current="true"]{opacity:1; transform:scale(1.25)}
+
+    @media (min-width:1200px){ :root{ --card-w: 420px; } }
+    @media (prefers-reduced-motion: reduce){
+      .carousel{scroll-behavior:auto}
+      :root{ --autoplay-ms: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap" role="region" aria-label="12 Archetypes Carousel">
+    <button class="arrow left" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="carousel" id="carousel" tabindex="0" aria-roledescription="carousel">
+
+      <!-- 1. Innocent -->
+      <article class="card tint-innocent" aria-label="The Innocent">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Innocent</h3>
+        <p class="aka">(Sincere)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Uplifted and hopeful.</p>
+        <p class="label">You</p>
+        <p class="text">Provide products or experiences that highlight honesty, simplicity, and goodness.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Purity, optimism, doing what’s right.</em></p>
+      </article>
+
+      <!-- 2. Everyman -->
+      <article class="card tint-everyman" aria-label="The Everyman">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Everyman</h3>
+        <p class="aka">(Down-to-earth)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Accepted, included, and comfortable being themselves.</p>
+        <p class="label">You</p>
+        <p class="text">Offer something familiar and dependable that helps people feel at home in everyday life.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Connection, belonging, honesty, comfort.</em></p>
+      </article>
+
+      <!-- 3. Hero -->
+      <article class="card tint-hero" aria-label="The Hero">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Hero</h3>
+        <p class="aka">&nbsp;</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Confident, capable, and ready to succeed.</p>
+        <p class="label">You</p>
+        <p class="text">Deliver solid results and help people overcome challenges.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Courage, hard work, determination, strength.</em></p>
+      </article>
+
+      <!-- 4. Caregiver -->
+      <article class="card tint-care" aria-label="The Caregiver">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Caregiver</h3>
+        <p class="aka">&nbsp;</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Cared for, safe, and reassured.</p>
+        <p class="label">You</p>
+        <p class="text">Offer protection, help, and comfort through what you do.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Kindness, trust, compassion, care.</em></p>
+      </article>
+
+      <!-- 5. Explorer -->
+      <article class="card tint-explore" aria-label="The Explorer">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Explorer</h3>
+        <p class="aka">(Curious)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Curious, free, and open to new experiences.</p>
+        <p class="label">You</p>
+        <p class="text">Invite people to try new things and see the world differently.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Freedom, discovery, independence, growth.</em></p>
+      </article>
+
+      <!-- 6. Rebel -->
+      <article class="card tint-rebel" aria-label="The Rebel">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Rebel</h3>
+        <p class="aka">(Outlaw)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Bold, independent, and ready to stand out.</p>
+        <p class="label">You</p>
+        <p class="text">Question the usual way of doing things and push for change.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Change, freedom, courage, progress.</em></p>
+      </article>
+
+      <!-- 7. Lover -->
+      <article class="card tint-lover" aria-label="The Lover">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Lover</h3>
+        <p class="aka">(Muse)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Enriched with beauty and emotionally awakened.</p>
+        <p class="label">You</p>
+        <p class="text">Inspire passion and make people feel special and appreciated.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Beauty, love, care, appreciation.</em></p>
+      </article>
+
+      <!-- 8. Creator -->
+      <article class="card tint-creator" aria-label="The Creator">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Creator</h3>
+        <p class="aka">&nbsp;</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Inspired, expressive, and proud of what’s possible.</p>
+        <p class="label">You</p>
+        <p class="text">Bring ideas to life with skill and creativity.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Imagination, craft, expression, vision.</em></p>
+      </article>
+
+      <!-- 9. Jester -->
+      <article class="card tint-jester" aria-label="The Jester">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Jester</h3>
+        <p class="aka">(Playful)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Joyful, relaxed, and happy to be part of your brand.</p>
+        <p class="label">You</p>
+        <p class="text">Add fun and laughter to everyday moments.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Joy, humor, play, lightheartedness.</em></p>
+      </article>
+
+      <!-- 10. Sage -->
+      <article class="card tint-sage" aria-label="The Sage">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Sage</h3>
+        <p class="aka">(Wise)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Informed, clear, and confident in their actions.</p>
+        <p class="label">You</p>
+        <p class="text">Share helpful knowledge that guides people toward better decisions.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Truth, learning, guidance, understanding.</em></p>
+      </article>
+
+      <!-- 11. Magician -->
+      <article class="card tint-magician" aria-label="The Magician">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Magician</h3>
+        <p class="aka">(Transformative)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Amazed, hopeful, and inspired by what you offer.</p>
+        <p class="label">You</p>
+        <p class="text">Turn ordinary things into something unique and full of meaning.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Change, wonder, hope, inspiration.</em></p>
+      </article>
+
+      <!-- 12. Ruler -->
+      <article class="card tint-ruler" aria-label="The Ruler">
+        <div class="kicker">Archetype</div>
+        <h3 class="title">The Ruler</h3>
+        <p class="aka">(Leader)</p>
+        <hr class="rule" />
+        <p class="label">Customers feel</p>
+        <p class="text">Confident, organized, and secure.</p>
+        <p class="label">You</p>
+        <p class="text">Provide order, clarity, and dependable direction people can rely on.</p>
+        <p class="label">Essence</p>
+        <p class="text"><em>Stability, structure, trust, leadership.</em></p>
+      </article>
+
+    </div>
+
+    <button class="arrow right" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="dots" role="tablist" aria-label="Slides">
+      <!-- 12 dots -->
+      <button class="dot" role="tab" aria-current="true"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+      <button class="dot" role="tab"></button>
+    </div>
+  </main>
+
+  <script>
+    /* config */
+    const AUTOPLAY_MS = parseInt(getComputedStyle(document.documentElement)
+      .getPropertyValue('--autoplay-ms')) || 0;
+
+    const scroller = document.getElementById('carousel');
+    const cards = [...scroller.querySelectorAll('.card')];
+    const dots  = [...document.querySelectorAll('.dot')];
+    const left  = document.querySelector('.arrow.left');
+    const right = document.querySelector('.arrow.right');
+
+    let index = 0, timer;
+
+    function gap(){ return parseInt(getComputedStyle(scroller).gap) || 0; }
+    function cardW(){ return cards[0].offsetWidth + gap(); }
+
+    function snapTo(i){
+      index = (i + cards.length) % cards.length;
+      scroller.scrollTo({ left: index * cardW(), behavior:'smooth' });
+      dots.forEach((d,di)=>d.setAttribute('aria-current', di===index));
+    }
+    function next(){ snapTo(index+1); }
+    function prev(){ snapTo(index-1); }
+
+    function startAutoplay(){
+      if (!AUTOPLAY_MS) return;
+      stopAutoplay();
+      timer = setInterval(next, AUTOPLAY_MS);
+    }
+    function stopAutoplay(){ if (timer) clearInterval(timer); }
+
+    function resize(){ snapTo(index); }
+    addEventListener('resize', resize);
+
+    right.addEventListener('click', next);
+    left?.addEventListener('click', prev);
+    dots.forEach((d,di)=>d.addEventListener('click', ()=>snapTo(di)));
+
+    scroller.addEventListener('keydown', e=>{
+      if (e.key==='ArrowRight') next();
+      if (e.key==='ArrowLeft')  prev();
+    });
+
+    ['mouseenter','focusin'].forEach(ev=>scroller.addEventListener(ev, stopAutoplay));
+    ['mouseleave','focusout'].forEach(ev=>scroller.addEventListener(ev, startAutoplay));
+
+    let ticking=false;
+    scroller.addEventListener('scroll', ()=>{
+      if (ticking) return;
+      requestAnimationFrame(()=>{
+        const i = Math.round(scroller.scrollLeft / cardW());
+        if (i!==index){ index=i; dots.forEach((d,di)=>d.setAttribute('aria-current', di===index)); }
+        ticking=false;
+      });
+      ticking=true;
+    });
+
+    resize(); startAutoplay();
+  </script>
+</body>
+</html>
