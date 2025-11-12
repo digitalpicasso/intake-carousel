@@ -31,8 +31,8 @@ body{ display:block; min-height:0; }
 .wrap{
   width: min(1100px, 96vw);
   position: relative;
-  margin: 0 auto;     /* center horizontally only */
-  padding-top: 0;
+  margin: clamp(40px, 6vh, 80px) auto; /* scales between mobile & desktop */
+  padding: 0;
 }
 
 /* Track */
