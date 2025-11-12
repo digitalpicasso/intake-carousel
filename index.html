@@ -6,57 +6,73 @@
 <title>12 Archetypes Carousel — Images</title>
 <style>
 :root{
-  --card-w: clamp(260px, 30vw, 380px);
-  --card-h: clamp(220px, 30vw, 260px); /* image height */
-  --gap: 20px;
+  /* Bigger cards; 2–3 visible on desktop, 1 on mobile */
+  --card-w: clamp(340px, 34vw, 520px);
+  --card-h: clamp(260px, 36vw, 360px); /* image height */
+  --gap: 22px;
+
   --autoplay-ms: 0; /* 0 disables autoplay */
   --shadow: 0 6px 22px rgba(0,0,0,.08);
   --shadow-focus: 0 12px 32px rgba(0,0,0,.18);
 }
-*{box-sizing:border-box}
-html,body{
-  margin:0; overflow:hidden;
-  background:linear-gradient(180deg,#fff 82%, transparent);
-  color:#000; font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+
+*{ box-sizing: border-box }
+
+html, body{
+  margin:0;
+  overflow:hidden; /* keep iframe tidy in Tally */
+  background: linear-gradient(180deg, #fff 82%, transparent);
+  color:#000;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
-body{display:grid; place-items:center; min-height:100svh}
-.wrap{width:min(1100px,96vw); position:relative}
+
+/* Top-aligned layout (no vertical centering) */
+body{ display:block; min-height:0; }
+.wrap{
+  width: min(1100px, 96vw);
+  position: relative;
+  margin: 0 auto;     /* center horizontally only */
+  padding-top: 0;
+}
 
 /* Track */
 .carousel{
   display:flex; gap:var(--gap);
-  overflow-x:auto; overflow-y:hidden;           /* horizontal only */
+  overflow-x:auto;               /* horizontal only */
+  overflow-y:hidden;
   scroll-snap-type:x mandatory;
-  padding:8px 56px;                              /* room for arrows */
+  padding: 8px 56px;             /* room for arrows */
   scroll-behavior:smooth;
   -webkit-overflow-scrolling:touch;
 }
-.carousel::-webkit-scrollbar{height:8px}
-.carousel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15); border-radius:4px}
+.carousel::-webkit-scrollbar{ height:8px }
+.carousel::-webkit-scrollbar-thumb{
+  background: rgba(0,0,0,.15); border-radius:4px;
+}
 
 /* Image Cards */
 .card{
-  flex:0 0 var(--card-w);
+  flex: 0 0 var(--card-w);
   height: var(--card-h);
-  scroll-snap-align:center;
+  scroll-snap-align: center;
   background:#fff;
-  border-radius:18px;
-  border:1px solid rgba(0,0,0,.08);
-  box-shadow:var(--shadow);
-  overflow:hidden;               /* crop image to rounded corners */
-  transition:transform .28s ease, box-shadow .28s ease;
-  position:relative;
+  border-radius: 18px;
+  border: 1px solid rgba(0,0,0,.08);
+  box-shadow: var(--shadow);
+  overflow: hidden;              /* crop image to rounded corners */
+  transition: transform .28s ease, box-shadow .28s ease;
+  position: relative;
 }
-.card.focused{ transform:scale(1.04); box-shadow:var(--shadow-focus); z-index:5 }
+.card.focused{ transform: scale(1.04); box-shadow: var(--shadow-focus); z-index:5; }
 .card img{
   width:100%; height:100%;
-  object-fit:cover; display:block;
+  object-fit: cover; display:block;
 }
 
-/* Optional subtle gradient edge (makes center feel “in focus”) */
+/* Optional subtle overlay (kept neutral) */
 .card::after{
   content:""; position:absolute; inset:0;
-  background:linear-gradient(0deg, rgba(0,0,0,.00), rgba(0,0,0,0));
+  background: linear-gradient(0deg, rgba(0,0,0,0), rgba(0,0,0,0));
   pointer-events:none;
 }
 
@@ -64,45 +80,49 @@ body{display:grid; place-items:center; min-height:100svh}
 .arrow{
   position:absolute; inset:0 auto 0 0; width:44px; height:44px; margin:auto 8px;
   border:none; border-radius:999px; background:rgba(255,255,255,.9);
-  backdrop-filter:blur(5px);
+  backdrop-filter: blur(5px);
   color:#111; display:grid; place-items:center; cursor:pointer; z-index:10;
-  box-shadow:0 4px 14px rgba(0,0,0,.1);
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
 }
-.arrow.right{left:auto; right:0}
-.arrow svg{width:20px; height:20px}
+.arrow.right{ left:auto; right:0; }
+.arrow svg{ width:20px; height:20px }
 
 /* Dots */
-.dots{display:flex; gap:8px; justify-content:center; margin:10px 0 0}
-.dot{width:8px; height:8px; border-radius:999px; background:#bbb; opacity:.5; cursor:pointer}
-.dot[aria-current="true"]{opacity:1; background:#000; transform:scale(1.25)}
+.dots{ display:flex; gap:8px; justify-content:center; margin:10px 0 0; }
+.dot{ width:8px; height:8px; border-radius:999px; background:#bbb; opacity:.5; cursor:pointer; }
+.dot[aria-current="true"]{ opacity:1; background:#000; transform:scale(1.25); }
 
-@media (prefers-reduced-motion: reduce){ .carousel{scroll-behavior:auto} }
+@media (prefers-reduced-motion: reduce){ .carousel{ scroll-behavior:auto } }
 </style>
 </head>
 <body>
 <main class="wrap" role="region" aria-label="12 Archetypes Carousel (Images)">
   <button class="arrow left" aria-label="Previous">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </button>
 
   <div class="carousel" id="carousel" tabindex="0">
-    <!-- Swap paths to match your filenames if different -->
-    <article class="card"><img src="./images/innocent.webp"   alt="The Innocent"   loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/everyman.webp"   alt="The Everyman"   loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/hero.webp"       alt="The Hero"       loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/caregiver.webp"  alt="The Caregiver"  loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/explorer.webp"   alt="The Explorer"   loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/rebel.webp"      alt="The Rebel"      loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/lover.webp"      alt="The Lover"      loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/creator.webp"    alt="The Creator"    loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/jester.webp"     alt="The Jester"     loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/sage.webp"       alt="The Sage"       loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/magician.webp"   alt="The Magician"   loading="lazy" decoding="async"></article>
-    <article class="card"><img src="./images/ruler.webp"      alt="The Ruler"      loading="lazy" decoding="async"></article>
+    <!-- Update filenames if yours differ -->
+    <article class="card"><img src="images/innocent.webp"   alt="The Innocent"  loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/everyman.webp"   alt="The Everyman"  loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/hero.webp"       alt="The Hero"      loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/caregiver.webp"  alt="The Caregiver" loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/explorer.webp"   alt="The Explorer"  loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/rebel.webp"      alt="The Rebel"     loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/lover.webp"      alt="The Lover"     loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/creator.webp"    alt="The Creator"   loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/jester.webp"     alt="The Jester"    loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/sage.webp"       alt="The Sage"      loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/magician.webp"   alt="The Magician"  loading="lazy" decoding="async"></article>
+    <article class="card"><img src="images/ruler.webp"      alt="The Ruler"     loading="lazy" decoding="async"></article>
   </div>
 
   <button class="arrow right" aria-label="Next">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </button>
 
   <div class="dots" role="tablist" aria-label="Slides">
@@ -112,10 +132,10 @@ body{display:grid; place-items:center; min-height:100svh}
 
 <script>
 const scroller = document.getElementById('carousel');
-const cards = [...scroller.querySelectorAll('.card')];
-const dots   = [...document.querySelectorAll('.dot')];
-const left   = document.querySelector('.arrow.left');
-const right  = document.querySelector('.arrow.right');
+const cards    = [...scroller.querySelectorAll('.card')];
+const dots     = [...document.querySelectorAll('.dot')];
+const left     = document.querySelector('.arrow.left');
+const right    = document.querySelector('.arrow.right');
 let index = 0;
 
 /* helpers */
@@ -128,24 +148,25 @@ function snapTo(i){
   scroller.scrollTo({ left: index * cardW(), behavior: 'smooth' });
   dots.forEach((d,di)=>d.setAttribute('aria-current', di===index));
 }
-function next(){ snapTo(index+1) }
-function prev(){ snapTo(index-1) }
+function next(){ snapTo(index+1); }
+function prev(){ snapTo(index-1); }
 
-/* focus lift */
+/* focus lift (center card pops) */
 function updateFocus(){
-  const center = scroller.scrollLeft + scroller.clientWidth/2;
+  const center = scroller.scrollLeft + scroller.clientWidth / 2;
   cards.forEach(c=>{
-    const mid = c.offsetLeft + c.offsetWidth/2;
-    c.classList.toggle('focused', Math.abs(mid - center) < cardW()/2);
+    const mid = c.offsetLeft + c.offsetWidth / 2;
+    c.classList.toggle('focused', Math.abs(mid - center) < cardW() / 2);
   });
 }
 scroller.addEventListener('scroll', ()=>requestAnimationFrame(updateFocus));
 
-/* fit height to card height so no vertical scroll in Tally */
+/* fit height to cards so there’s no vertical scroll inside the iframe */
 function fitHeight(){
-  const tallest = Math.max(...cards.map(c=>c.offsetHeight)); // uniform but safe
+  const tallest = Math.max(...cards.map(c=>c.offsetHeight)); // uniform but robust
   scroller.style.height = (tallest + 16) + 'px';
-  document.body.style.height = (tallest + 120) + 'px';
+  /* Important for Tally: do NOT force extra body height */
+  /* document.body.style.height = (tallest + 120) + 'px'; */
 }
 addEventListener('load', ()=>{ fitHeight(); updateFocus(); });
 addEventListener('resize', ()=>{ requestAnimationFrame(()=>{ fitHeight(); updateFocus(); }); });
@@ -153,7 +174,7 @@ setTimeout(()=>{ fitHeight(); updateFocus(); }, 300);
 
 /* controls */
 right.addEventListener('click', next);
-left.addEventListener('click', prev);
+left.addEventListener('click',  prev);
 dots.forEach((d,di)=>d.addEventListener('click', ()=>snapTo(di)));
 
 /* init */
