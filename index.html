@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>12 Archetypes Carousel — V4</title>
+<title>12 Archetypes Carousel — Images</title>
 <style>
 :root{
-  --card-w: clamp(280px, 32vw, 380px);
+  --card-w: clamp(260px, 30vw, 380px);
+  --card-h: clamp(220px, 30vw, 260px); /* image height */
   --gap: 20px;
   --autoplay-ms: 0; /* 0 disables autoplay */
   --shadow: 0 6px 22px rgba(0,0,0,.08);
   --shadow-focus: 0 12px 32px rgba(0,0,0,.18);
-  --muted: #555;
 }
 *{box-sizing:border-box}
 html,body{
@@ -34,27 +34,31 @@ body{display:grid; place-items:center; min-height:100svh}
 .carousel::-webkit-scrollbar{height:8px}
 .carousel::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15); border-radius:4px}
 
-/* Cards */
+/* Image Cards */
 .card{
   flex:0 0 var(--card-w);
+  height: var(--card-h);
   scroll-snap-align:center;
-  background:#fff; color:#111;
-  border-radius:18px; padding:20px 18px;
+  background:#fff;
+  border-radius:18px;
   border:1px solid rgba(0,0,0,.08);
   box-shadow:var(--shadow);
+  overflow:hidden;               /* crop image to rounded corners */
   transition:transform .28s ease, box-shadow .28s ease;
-  display:flex; flex-direction:column; gap:10px;
+  position:relative;
 }
 .card.focused{ transform:scale(1.04); box-shadow:var(--shadow-focus); z-index:5 }
+.card img{
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+}
 
-/* Typography */
-.kicker{font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted)}
-.num{font-size:.8rem; color:#777; margin:-4px 0 2px}
-.title{font-size:1.2rem; font-weight:800; margin:0}
-.aka{font-weight:600; color:#777; margin:0 0 6px}
-.rule{height:1px; background:rgba(0,0,0,.1); border:0; margin:6px 0}
-.label{font-weight:700; font-size:.9rem; margin:.15rem 0 0}
-.text{margin:0; color:#333; font-size:.95rem; line-height:1.45}
+/* Optional subtle gradient edge (makes center feel “in focus”) */
+.card::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(0deg, rgba(0,0,0,.00), rgba(0,0,0,0));
+  pointer-events:none;
+}
 
 /* Arrows */
 .arrow{
@@ -76,191 +80,25 @@ body{display:grid; place-items:center; min-height:100svh}
 </style>
 </head>
 <body>
-<main class="wrap" role="region" aria-label="12 Archetypes Carousel">
+<main class="wrap" role="region" aria-label="12 Archetypes Carousel (Images)">
   <button class="arrow left" aria-label="Previous">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 18l-6-6 6-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
 
   <div class="carousel" id="carousel" tabindex="0">
-    <!-- 1. Innocent -->
-    <article class="card" aria-label="The Innocent">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #1</div>
-      <h3 class="title">The Innocent</h3>
-      <p class="aka">(Sincere)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Provide products or experiences that highlight honesty, simplicity, and goodness.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Uplifted and hopeful.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Purity, optimism, doing what’s right.</em></p>
-    </article>
-
-    <!-- 2. Everyman -->
-    <article class="card" aria-label="The Everyman">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #2</div>
-      <h3 class="title">The Everyman</h3>
-      <p class="aka">(Down-to-earth)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Offer something familiar and dependable that helps people feel at home in everyday life.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Accepted, included, and comfortable being themselves.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Connection, belonging, honesty, comfort.</em></p>
-    </article>
-
-    <!-- 3. Hero -->
-    <article class="card" aria-label="The Hero">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #3</div>
-      <h3 class="title">The Hero</h3>
-      <p class="aka">&nbsp;</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Deliver solid results and help people overcome challenges.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Confident, capable, and ready to succeed.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Courage, hard work, determination, strength.</em></p>
-    </article>
-
-    <!-- 4. Caregiver -->
-    <article class="card" aria-label="The Caregiver">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #4</div>
-      <h3 class="title">The Caregiver</h3>
-      <p class="aka">&nbsp;</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Offer protection, help, and comfort through what you do.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Cared for, safe, and reassured.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Kindness, trust, compassion, care.</em></p>
-    </article>
-
-    <!-- 5. Explorer -->
-    <article class="card" aria-label="The Explorer">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #5</div>
-      <h3 class="title">The Explorer</h3>
-      <p class="aka">(Curious)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Invite people to try new things and see the world differently.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Curious, free, and open to new experiences.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Freedom, discovery, independence, growth.</em></p>
-    </article>
-
-    <!-- 6. Rebel -->
-    <article class="card" aria-label="The Rebel">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #6</div>
-      <h3 class="title">The Rebel</h3>
-      <p class="aka">(Outlaw)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Question the usual way of doing things and push for change.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Bold, independent, and ready to stand out.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Change, freedom, courage, progress.</em></p>
-    </article>
-
-    <!-- 7. Lover -->
-    <article class="card" aria-label="The Lover">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #7</div>
-      <h3 class="title">The Lover</h3>
-      <p class="aka">(Muse)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Inspire passion and make people feel special and appreciated.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Enriched with beauty and emotionally awakened.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Beauty, love, care, appreciation.</em></p>
-    </article>
-
-    <!-- 8. Creator -->
-    <article class="card" aria-label="The Creator">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #8</div>
-      <h3 class="title">The Creator</h3>
-      <p class="aka">&nbsp;</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Bring ideas to life with skill and creativity.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Inspired, expressive, and proud of what’s possible.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Imagination, craft, expression, vision.</em></p>
-    </article>
-
-    <!-- 9. Jester -->
-    <article class="card" aria-label="The Jester">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #9</div>
-      <h3 class="title">The Jester</h3>
-      <p class="aka">(Playful)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Add fun and laughter to everyday moments.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Joyful, relaxed, and happy to be part of your brand.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Joy, humor, play, lightheartedness.</em></p>
-    </article>
-
-    <!-- 10. Sage -->
-    <article class="card" aria-label="The Sage">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #10</div>
-      <h3 class="title">The Sage</h3>
-      <p class="aka">(Wise)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Share helpful knowledge that guides people toward better decisions.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Informed, clear, and confident in their actions.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Truth, learning, guidance, understanding.</em></p>
-    </article>
-
-    <!-- 11. Magician -->
-    <article class="card" aria-label="The Magician">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #11</div>
-      <h3 class="title">The Magician</h3>
-      <p class="aka">(Transformative)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Turn ordinary things into something unique and full of meaning.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Amazed, hopeful, and inspired by what you offer.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Change, wonder, hope, inspiration.</em></p>
-    </article>
-
-    <!-- 12. Ruler -->
-    <article class="card" aria-label="The Ruler">
-      <div class="kicker">Archetype</div>
-      <div class="num">Archetype #12</div>
-      <h3 class="title">The Ruler</h3>
-      <p class="aka">(Leader)</p>
-      <hr class="rule">
-      <p class="label">You</p>
-      <p class="text">Provide order, clarity, and dependable direction people can rely on.</p>
-      <p class="label">Customers feel</p>
-      <p class="text">Confident, organized, and secure.</p>
-      <p class="label">Essence</p>
-      <p class="text"><em>Stability, structure, trust, leadership.</em></p>
-    </article>
+    <!-- Swap paths to match your filenames if different -->
+    <article class="card"><img src="./images/innocent.webp"   alt="The Innocent"   loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/everyman.webp"   alt="The Everyman"   loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/hero.webp"       alt="The Hero"       loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/caregiver.webp"  alt="The Caregiver"  loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/explorer.webp"   alt="The Explorer"   loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/rebel.webp"      alt="The Rebel"      loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/lover.webp"      alt="The Lover"      loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/creator.webp"    alt="The Creator"    loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/jester.webp"     alt="The Jester"     loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/sage.webp"       alt="The Sage"       loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/magician.webp"   alt="The Magician"   loading="lazy" decoding="async"></article>
+    <article class="card"><img src="./images/ruler.webp"      alt="The Ruler"      loading="lazy" decoding="async"></article>
   </div>
 
   <button class="arrow right" aria-label="Next">
@@ -275,13 +113,13 @@ body{display:grid; place-items:center; min-height:100svh}
 <script>
 const scroller = document.getElementById('carousel');
 const cards = [...scroller.querySelectorAll('.card')];
-const dots = [...document.querySelectorAll('.dot')];
-const left = document.querySelector('.arrow.left');
-const right = document.querySelector('.arrow.right');
+const dots   = [...document.querySelectorAll('.dot')];
+const left   = document.querySelector('.arrow.left');
+const right  = document.querySelector('.arrow.right');
 let index = 0;
 
-/* sizing helpers */
-const gap = () => parseInt(getComputedStyle(scroller).gap) || 0;
+/* helpers */
+const gap   = () => parseInt(getComputedStyle(scroller).gap) || 0;
 const cardW = () => cards[0].offsetWidth + gap();
 
 /* snap + dots */
@@ -293,26 +131,25 @@ function snapTo(i){
 function next(){ snapTo(index+1) }
 function prev(){ snapTo(index-1) }
 
-/* focus lift (centered card pops) */
+/* focus lift */
 function updateFocus(){
   const center = scroller.scrollLeft + scroller.clientWidth/2;
   cards.forEach(c=>{
     const mid = c.offsetLeft + c.offsetWidth/2;
-    const isFocused = Math.abs(mid - center) < cardW()/2;
-    c.classList.toggle('focused', isFocused);
+    c.classList.toggle('focused', Math.abs(mid - center) < cardW()/2);
   });
 }
 scroller.addEventListener('scroll', ()=>requestAnimationFrame(updateFocus));
 
-/* fit height to tallest card so there’s no vertical scroll */
+/* fit height to card height so no vertical scroll in Tally */
 function fitHeight(){
-  const tallest = Math.max(...cards.map(c=>c.offsetHeight));
+  const tallest = Math.max(...cards.map(c=>c.offsetHeight)); // uniform but safe
   scroller.style.height = (tallest + 16) + 'px';
   document.body.style.height = (tallest + 120) + 'px';
 }
 addEventListener('load', ()=>{ fitHeight(); updateFocus(); });
 addEventListener('resize', ()=>{ requestAnimationFrame(()=>{ fitHeight(); updateFocus(); }); });
-setTimeout(()=>{ fitHeight(); updateFocus(); }, 400); // font late-load safety
+setTimeout(()=>{ fitHeight(); updateFocus(); }, 300);
 
 /* controls */
 right.addEventListener('click', next);
